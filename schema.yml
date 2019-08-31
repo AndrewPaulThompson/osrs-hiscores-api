@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  title: Oldschool Runescape Hiscores API
+  description: Oldschool Runescape Hiscores API
+  version: 1.0.0
+
+paths:
+  /v1/hiscores/{account_name}:
+    get:
+      summary: Returns account data by account username
+      parameters:
+        - name: account_name
+          in: path
+          required: true
+          description: account name
+          schema:
+            type: string
+        - name: game_mode
+          in: query
+          description: The game mode of the account
+          schema:
+            type: string
+            enum: 
+              - ironman
+              - ultimate
+              - hardcore_ironman
+              - deadman
+              - seasonal
+              - tournament
+      responses:
+        '200':
+          description: Account data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: Account username
+                    example: Zezima
+                  skills:
+                    type: object
+                    description: Account skills
+                  minigames:
+                    type: object
+                    description: Account minigames
+        '400':
+          description: Bad request.
+        '404':
+          description: A user with the specified username was not found
+        '5XX':
+          description: Unexpected error.
